@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}실시간 온도, 습도 측정기{% endblock %}
+{% block title %}Temp-humi Monitor{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
@@ -70,7 +70,7 @@
             temperatureChart = initializeChart('temp', '실시간 온도 데이터', '온도 ( *C )');
             humidityChart = initializeChart('humi', '실시간 습도 데이터', '습도 ( % )');
 
-            setInterval(pollEvent, 3000); // 6 seconds
+            setInterval(pollEvent, 3000); // 3 seconds
         });
     </script>
 {% endblock %}
