@@ -47,6 +47,8 @@ cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 lock = threading.Lock()
 
+surveillance_mode = False
+
 def sendMail(image=None):
     """ 감지된 이미지를 이메일로 전송하는 함수 """
     to = [userid]
@@ -84,6 +86,7 @@ def sendMail(image=None):
 def surveillance():
     """ 방범 기능을 수행하는 함수 """
     thresh = 50  # 움직임 감지 임계값
+    global surveillance_mode
 
     if not cam.isOpened():
         print("cam isn't opened")
@@ -104,10 +107,12 @@ def surveillance():
             diff = diffImage(i)
             thrimg = cv2.threshold(diff, thresh, 1, cv2.THRESH_BINARY)[1]
             count = cv2.countNonZero(thrimg)
-
+        time.sleep(1)
+        if not surveillance_mode:
+            print('Surveillance mode OFF')
+            continue
         print("count :", count)
         print("checkFlag :", checkFlag)
-        time.sleep(1)
         # 침입자 감지 시
         if count > 1:
             checkFlag += 1
@@ -150,6 +155,18 @@ def index():
 @app.route('/streaming')
 def getstreaming():
     return render_template("camstreaming.html")
+
+@app.route('/surveillance_on')
+def surveillance_on():
+    global surveillance_mode
+    surveillance_mode = True
+    return redirect(url_for('getstreaming'))
+
+@app.route('/surveillance_off')
+def surveillance_off():
+    global surveillance_mode
+    surveillance_mode = False
+    return redirect(url_for('getstreaming'))
 
 @app.route('/dhtevents')
 def getevents():
