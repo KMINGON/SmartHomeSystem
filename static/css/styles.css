@@ -1,0 +1,26 @@
+/* base.html에 추가 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa; /* 배경색 변경 */
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #888; /* 푸터 텍스트 색상 변경 */
+}
+
+.text-muted {
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto; /* 이미지 크기가 반응형으로 조정되도록 함 */
+}

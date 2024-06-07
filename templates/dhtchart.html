@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}실시간 온도, 습도 측정기{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+{% endblock %}
+
+{% block content %}
+    <div id="temp" style="width: 100%; height: 300px; margin-left:-5px;"></div>
+    <div id="humi" style="width: 100%; height: 300px; margin-left:-5px;"></div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highcharts/4.0.4/highcharts.js"></script>
+    <script>
+        var temperatureChart;
+        var humidityChart;
+        var pollUri = "/dhtevents";
+
+        function initializeChart(renderTo, titleText, yAxisTitle) {
+            return new Highcharts.Chart({
+                chart: {
+                    renderTo: renderTo,
+                    defaultSeriesType: 'spline',
+                },
+                title: {
+                    text: titleText
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 120,
+                    maxZoom: 20 * 1000
+                },
+                yAxis: {
+                    minPadding: 0.2,
+                    maxPadding: 0.2,
+                    title: {
+                        text: yAxisTitle,
+                        margin: 20
+                    }
+                },
+                series: [{
+                    name: titleText,
+                    data: []
+                }]
+            });
+        }
+
+        function addDataPoint(chart, point) {
+            var series = chart.series[0];
+            var shift = series.data.length > 20;
+            chart.series[0].addPoint(point, true, shift);
+        }
+
+        function pollEvent() {
+            $.getJSON(pollUri, function(data) {
+                var currentTime = new Date();
+                currentTime.setHours(currentTime.getHours() + 9);
+                var time = currentTime.getTime();
+
+                addDataPoint(temperatureChart, [time, Number(data.temperature)]);
+                addDataPoint(humidityChart, [time, Number(data.humidity)]);
+            });
+        }
+
+        $(document).ready(function() {
+            temperatureChart = initializeChart('temp', '실시간 온도 데이터', '온도 ( *C )');
+            humidityChart = initializeChart('humi', '실시간 습도 데이터', '습도 ( % )');
+
+            setInterval(pollEvent, 3000); // 6 seconds
+        });
+    </script>
+{% endblock %}

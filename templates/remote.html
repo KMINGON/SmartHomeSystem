@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Control Panel</h1>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-primary btn-block" onclick="light1_On()">Turn Light1 On</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary btn-block" onclick="light1_Off()">Turn Light1 Off</button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-primary btn-block" onclick="light2_On()">Turn Light2 On</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-secondary btn-block" onclick="light2_Off()">Turn Light2 Off</button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-success btn-block" onclick="doorOpen()">Open Door</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger btn-block" onclick="doorClose()">Close Door</button>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-success btn-block" onclick="windowOpen()">Open Window</button>
+        </div>
+        <div class="col">
+            <button class="btn btn-danger btn-block" onclick="windowClose()">Close Window</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function light1_On() {
+        fetch('/light1_on')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function light1_Off() {
+        fetch('/light1_off')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+    
+    function light2_On() {
+        fetch('/light2_on')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function light2_Off() {
+        fetch('/light2_off')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function doorOpen() {
+        fetch('/door_open')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function doorClose() {
+        fetch('/door_close')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function windowOpen() {
+        fetch('/window_open')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+
+    function windowClose() {
+        fetch('/window_close')
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
+    }
+</script>
+{% endblock %}

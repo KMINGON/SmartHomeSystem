@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homecam.css') }}">
+<script>
+    function startTime() {
+        const today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth()+1; //January is 0!
+        let day = today.getDate();
+        let h = today.getHours();
+        let m = today.getMinutes();
+        let s = today.getSeconds();
+        month = checkTime(month);
+        day = checkTime(day);
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('txt').innerHTML = year + "-" + month + "-" + day + " " + h + ":" + m + ":" + s;
+        setTimeout(startTime, 1000);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {i = "0" + i};
+        return i;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>Home Cam</h1>
+    <img src="/video" class="img-fluid" alt="Home Camera Stream">
+    <div class="footer">
+        date: <span id="txt"></span>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        startTime();
+    });
+</script>
+{% endblock %}

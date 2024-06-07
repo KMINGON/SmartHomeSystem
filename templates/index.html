@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Smart Home{% endblock %}
+
+{% block head %}
+    <style>
+        .hero {
+            padding: 50px 0;
+            background-color: #e9ecef;
+        }
+        .hero h1 {
+            font-size: 3em;
+        }
+        .hero p {
+            font-size: 1.2em;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="hero text-center">
+        <h1>Welcome to Your Smart Home</h1>
+        <p>Control, monitor, and automate your home from anywhere in the world.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='images/home_cam.png') }}" class="card-img-top img-fluid" alt="Home Cam">
+                <div class="card-body">
+                    <h5 class="card-title">Home Cam</h5>
+                    <p class="card-text">Monitor your home with our high-quality cameras.</p>
+                    <a href="/streaming" class="btn btn-primary">View Cameras</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='images/control_panel.png') }}" class="card-img-top img-fluid" alt="Control Panel">
+                <div class="card-body">
+                    <h5 class="card-title">Control Panel</h5>
+                    <p class="card-text">Manage all your devices in one place.</p>
+                    <a href="/remote" class="btn btn-primary">Go to Control Panel</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='images/temp_humi.png') }}" class="card-img-top img-fluid" alt="Temp-humi Monitor">
+                <div class="card-body">
+                    <h5 class="card-title">Temp-humi Monitor</h5>
+                    <p class="card-text">Keep an eye on your home's environment.</p>
+                    <a href="/dht" class="btn btn-primary">View Monitor</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
