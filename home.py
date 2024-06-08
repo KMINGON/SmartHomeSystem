@@ -43,8 +43,8 @@ userid = "rlaalsrhs59@gmail.com"
 passwd = "nxeyqfrmnptoyuxz"
 
 cam = cv2.VideoCapture(0)
-cam.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
-cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
+cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 lock = threading.Lock()
 
 surveillance_mode = False

@@ -5,6 +5,7 @@
 
 int flame = 36; // ESP32의 아날로그 핀
 int LED = 13; // ESP32의 디지털 핀
+int count = 0;
 WiFiServer server(8080);
 
 void setup() {
@@ -31,8 +32,12 @@ void loop() {
   int val = analogRead(flame);
   Serial.print("flame_sensor : ");
   Serial.println(val);
+  if (val > 4000) count ++;
+  else count = 0;
 
-  if (val > 3000) {
+
+
+  if (count > 4) {
     digitalWrite(LED, HIGH);
     Serial.println("FIRE!!!!");
   } else {
@@ -67,7 +72,7 @@ void loop() {
         }
 
         if (currentLine.endsWith("GET /fireevents")) {
-          if (val > 3000) {
+          if (count > 4) {
             webString = "{\"status\": \"FIRE\"}";
           } else {
             webString = "{\"status\": \"NO FIRE\"}";
