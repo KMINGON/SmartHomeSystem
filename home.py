@@ -193,6 +193,8 @@ def check_fire_status():
         data = response.json()
         if data.get("status") == "FIRE":
             print('fire!!')  # 화재 감지
+            requests.get(door_close_url)
+            requests.get(window_close_url)
             sendMail()
         else:
             print('no fire')  # 화재 미감지
@@ -208,7 +210,7 @@ def check_fire_status():
 def fire_status():
     while True:
         check_fire_status()
-        time.sleep(2)  # 2초마다 확인
+        time.sleep(1)  # 2초마다 확인
         
 @app.route('/remote')
 def getRemote():

@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include <WiFiServer.h>
 #include <ESP32Servo.h> // 서보 모터 라이브러리 추가
-
+// #include <IRremote.h>
 // Wi-Fi 네트워크 이름 및 비밀번호
 const char* ssid = "mingon";
 const char* password = "123456780";
@@ -9,10 +9,16 @@ const char* password = "123456780";
 #define LIGHT1_PIN 2
 #define LIGHT2_PIN 13
 #define DOORPIN 4 // 서보 모터 핀
+#define WINDOWPIN 15 // 서보 모터 핀
+// #define REMOTEPIN 36 // IR 리모컨 수신 핀
 
 Servo servo; // 서보 모터 객체 생성
+Servo window; // 서보 모터 객체 생성
 
-WiFiServer server(80);
+// IRrecv irRemote(REMOTEPIN);  //리모콘 객체 생성
+// decode_results results;
+
+WiFiServer server(8080);
 
 void setup() {
   // 시리얼 통신 시작
@@ -28,6 +34,11 @@ void setup() {
 
   // 서보 모터 핀 설정
   servo.attach(DOORPIN);
+  window.attach(WINDOWPIN);
+
+
+  // IR 리모컨 수신기 시작
+  // irRemote.enableIRIn(); // Start the IR receiver
 
 
   // Wi-Fi 연결 시도
@@ -55,8 +66,14 @@ void loop() {
   } else {
     Serial.println("WiFi not connected");
   }
-  delay(1000);
+  // if(irRemote.decode(&results)){
+  //   Serial.println(results.value,HEX);
+  //   irRemote.resume();
+  // }
 
+  
+
+  
   WiFiClient client = server.available(); // 새로운 클라이언트가 연결되었는지 확인
   if (client) {
     Serial.println("New Client");
@@ -92,6 +109,14 @@ void loop() {
             }else if (currentLine.indexOf("close_door") >= 0) {
               // 서보 모터를 90도 회전
               servo.write(0);
+              client.println("1");
+            }else if (currentLine.indexOf("open_window") >= 0) {
+              // 서보 모터를 90도 회전
+              window.write(90);
+              client.println("0");
+            }else if (currentLine.indexOf("close_window") >= 0) {
+              // 서보 모터를 90도 회전
+              window.write(0);
               client.println("1");
             } else {
               client.print("{\"status\": \"unknown command\"}");
