@@ -56,10 +56,10 @@ def sendMail(image=None):
     if image is not None:
         imageByte = cv2.imencode(".jpeg", image)[1].tobytes()
         imageMime = MIMEImage(imageByte)
-        msg['Subject'] = "Invader is Coming!!"
+        msg['Subject'] = "집에 침입자 움직임이 감지되었습니다!!"
         msg.attach(imageMime)
     else:
-        msg['Subject'] = "Fire!!"
+        msg['Subject'] = "화재가 감지되었습니다!!"
         body = "Fire!!"
         msg.attach(MIMEText(body, 'plain'))
 
@@ -195,6 +195,8 @@ def check_fire_status():
             print('fire!!')  # 화재 감지
             requests.get(door_close_url)
             requests.get(window_close_url)
+            requests.get(light1_off_url)
+            requests.get(light2_off_url)
             sendMail()
         else:
             print('no fire')  # 화재 미감지
@@ -265,5 +267,5 @@ if __name__ == '__main__':
     #fire Thread
     t1 = threading.Thread(target=fire_status)
     t1.start()
-    # 웹 서버 실행
+    # 웹 서  버 실행
     app.run(host='0.0.0.0', port=8080)
